@@ -1,33 +1,31 @@
 //WAP to find the distance between two point using 4 functions.
-#include <stdio.h> 
+#include<stdio.h>
 #include<math.h>
 
-float input_pt1(float *x1, float *y1) 
-{ 
-    printf("Enter point 1 coordinates: ");
-    scanf("%f%f",x1,y1);
-} 
-
-float input_pt2(float *x2, float *y2) 
-{ 
-    printf("Enter point 2 coordinates: ");
+void inputpt1(float *x1,float *y1)
+{
+	printf("Enter x and y coordinates for point 1: ");
+	scanf("%f%f",x1,y1);
+}
+void inputpt2(float *x2,float *y2)
+{
+	printf("Enter x and y coordinates for point 2: ");
     scanf("%f%f",x2,y2);
-} 
-float calc_distance(float *x1, float *y1, float *x2, float *y2, float *d)
-{
-    *d = sqrt((*x2-*x1)*(*x2-*x1)+(*y2-*y1)*(*y2-*y1));
 }
-float output(float *x1, float *y1, float *x2, float *y2, float *d)
+void distance(float *x1,float *y1, float *x2, float *y2,float *dist)
 {
-    printf("The distance between two points with coordinates (%.2f,%.2f) and (%.2f,%.2f) is %.2f",*x1,*y1,*x2,*y2,*d);
+	*dist = sqrt((*x2-*x1)*(*x2-*x1)+(*y2-*y1)*(*y2-*y1));
 }
-
-int main() 
-{ 
-	float x1,y1,x2,y2,d; 
-	input_pt1(&x1,&y1); 
-	input_pt2(&x2,&y2);
-	calc_distance(&x1,&y1,&x2,&y2,&d);
-	output(&x1,&y1,&x2,&y2,&d);
-	return 0; 
-} 
+void output(float *x1,float *y1,float *x2,float *y2,float *dist)
+{
+	printf("The distance between two points (%f,%f) and (%f,%f) is %f",*x1,*y1,*x2,*y2,*dist);
+}
+int main(void)
+{
+float x1,y1,x2,y2,dist;
+inputpt1(&x1,&y1);
+inputpt2(&x2,&y2);
+distance(&x1,&y1,&x2,&y2,&dist);
+output(&x1,&y1,&x2,&y2,&dist);
+return 0;
+}
