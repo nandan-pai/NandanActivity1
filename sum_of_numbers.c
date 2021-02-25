@@ -1,51 +1,43 @@
 //Write a program to find the sum of n different numbers using 4 functions
-#include <stdio.h>
+#include<stdio.h>
 
-int input_limit()
+int input()
 {
-    int n;
-    printf("Enter total number of elements: ");
-    scanf("%d",&n);
-    return n;
+	int n;
+	printf("How many numbers to be added?");
+	scanf("%d",&n);
+	return n;
 }
 
-void array_input(int n, int a[n])
+void input_n(int n,int a[n])
 {
-    for(int i=0;i<n;i++)
-    {
-        printf("Enter the element no %d of the array: ",i);
-        scanf("%d",&a[i]);
-    }
+	printf("Enter %d numbers: ",n);
+	for(int i=0;i<n;i++)
+		scanf("%d",&a[i]);
 }
 
-int array_sum(int n, int a[n])
+int sum_of_n(int n,int a[n])
 {
-    int sum = 0;
-    for(int i=0; i<n ; i++)
-    {
-        sum += a[i];
-    }
-    return sum;
+	int sum = 0;
+	for(int i=0;i<n;i++)
+		sum += a[i];
+	return sum;
 }
 
-int output(int n,int a[n],int sum)
+void print_sum(int n,int a[n],int sum)
 {
-    int i;
-    printf("The sum of ");
-    for(i=0;i<n-1;i++)
-    {
-        printf("%d+",a[i]);
-    }
-    printf("%d=%d",a[i],sum);
-}
-
-int main()
+    int i; 
+	for(i=0;i<n-1;i++)
+		printf("%d + ",a[i]);
+    printf("%d = %d",a[i],sum);
+}   
+int main(void)
 {
-    int n,sum;
-    n = input_limit();
-    int array[n];
-    array_input(n,array);
-    sum = array_sum(n,array);
-    output(n,array,sum);
-    return 0;
+	int n,sum;
+	n = input();
+	int a[n];
+	input_n(n,a);
+	sum = sum_of_n(n,a);
+	print_sum(n,a,sum);
+	return 0;
 }
