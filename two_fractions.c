@@ -1,28 +1,22 @@
 //WAP to find the sum of two fractions.
 #include<stdio.h>
+#include<conio.h>
 
 struct fraction
 {
-    int num,den;
+    int num;
+    int den;
 };
 
 typedef struct fraction frac;
 
-frac input(int *num1,int *den1,int *num2, int *den2)
+frac input()
 {
-    printf("For fraction 1 enter numerator and denominator: ");
-    scanf("%d%d",num1,den1);
-    printf("For fraction 2 enter numerator and denominator: ");
-    scanf("%d%d",num2,den2);
+    frac fr;
+    printf("Enter numerator and denominator for fraction: ");
+    scanf("%d%d",&fr.num,&fr.den);
+    return fr;
 }
-
-frac simplify(frac sum,int gcd)
-{
-    sum.num = sum.num / gcd;
-    sum.den = sum.den / gcd;
-    return sum;
-}
- 
 int findgcd(int num,int den)
 {
     int gcd;
@@ -32,29 +26,33 @@ int findgcd(int num,int den)
     return gcd;
 }
 
-frac add(frac f1,frac f2)
+frac sum(frac f1, frac f2)
 {
-    frac result;
-    result.den = f1.num * f2.den;
-    result.num = (f1.num * f2.den) + (f2.num * f1.den);
-    
+    frac result = {(f1.num * f2.den) + (f2.num * f1.den), f1.den * f2.den};
     return result;
 }
 
-frac output(frac sum)
+frac simplify(frac add,int gcd)
 {
-    printf("Result = %d/%d",sum.num,sum.den);
+    add.num = add.num/gcd;
+    add.den = add.den/gcd;
+    return add;
+}
+
+frac output(frac add)
+{
+    printf("Result = %d/%d",add.num,add.den);
 }
 
 int main(void)
 {
-    int num1,den1,num2,den2,gcd;
-    input(&num1,&den1,&num2,&den2);
-    frac f1 = {num1, den1};
-    frac f2 = {num2, den2};
-    frac sum = add(f1,f2);
-    gcd = findgcd(sum.num,sum.den);
-    sum = simplify(sum,gcd);
-    output(sum);
+    int gcd;
+    frac f1 = input();
+    frac f2 = input();
+    struct fraction add;
+    add = sum(f1,f2);
+    gcd = findgcd(add.num,add.den);
+    frac simple = simplify(add,gcd);
+    output(simple);
     return 0;
 }
