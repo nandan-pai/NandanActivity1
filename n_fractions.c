@@ -1,76 +1,87 @@
 //WAP to find the sum of n fractions.
-#include <stdio.h>
+#include<stdio.h>
 
-struct fraction
+struct fractions
 {
-    int num;
-    int den;
+	int num;
+	int den;
 };
 
-typedef struct fraction f;
-
-int input_limit()
+typedef struct fractions frac;
+ 
+int input_n()
 {
-    int n;
-    printf("Enter number of fractions to be added: ");
-    scanf("%d",&n);
+	int n;
+	printf("Enter number of fractions to add: ");
+	scanf("%d",&n);
     return n;
 }
 
-void arrayinput(int n,f *frac)
+void numdeninput(int n, frac fracs[n])
 {
-    for(int i = 0; i<n; i++)
-    {
-        printf("Enter values for fraction %d\n",i+1);
-        printf("Numerator %d: ",i+1);
-        scanf("%d",&frac[i].num);
-        printf("Denominator %d: ",i+1);
-        scanf("%d",&frac[i].den);
-    }
+	for(int i = 0; i<n; i++)
+	{
+		printf("\nEnter values for fraction %d\n",i+1);
+		printf("Enter numerator and denominator: ");
+		scanf("%d%d",&fracs[i].num,&fracs[i].den);
+	}
 }
 
-int gcd(int a, int b) 
-{ 
-    if (b == 0) 
-        return a; 
-    return gcd(b, a % b); 
-} 
-  
-int lcm(int n,f *frac) 
-{ 
-    int ans = frac[0].den; 
-    for (int i = 1; i < n; i++) 
-        ans = (((frac[i].den * ans)) / (gcd(frac[i].den, ans))); 
-    return ans; 
-} 
-
-int finalnum(int n,int deno,f * frac)
+frac sum_of_n(int n, frac fracs[n])
 {
-    int numsum = 0;
+    frac final;
+    final.num = 0;
+    final.den = 1;
     for(int i=0;i<n;i++)
     {
-       frac[i].num = frac[i].num * (deno/frac[i].den); 
+        final.num = final.num * fracs[i].den + final.den * fracs[i].num;
+        final.den *= fracs[i].den;
     }
-    for(int i=0;i<n;i++)
+    return final;
+}
+
+int findgcd(int numerator,int denominator)
+{
+    int gcd;
+    for(int i=1;i<=numerator && i<=denominator;i++)
     {
-        numsum += frac[i].num;
+        if(numerator%i==0 && denominator%i==0)
+        {
+            gcd = i;
+        }
     }
-    return numsum;
+    return  gcd;
 }
 
-void output(int nume,int deno)
+
+frac simplified(frac fracsum,int gcd)
 {
-    printf("Sum of given fractions is: %d/%d",nume,deno);
+    fracsum.num = fracsum.num / gcd;
+    fracsum.den = fracsum.den / gcd;
+    return fracsum;
 }
 
-int main()
+void output(int n,frac fracs[n],frac finalfrac)
 {
-    int n;
-    n = input_limit();
-    struct fraction frac[n];
-    arrayinput(n,frac);
-    int deno = lcm(n,frac);
-    int nume = finalnum(n,deno,frac);
-    output(nume,deno);
+    int i;
+    printf("Sum of fractions: ");
+    for(i=0;i<n-1;i++)
+    {
+        printf("%d/%d + ",fracs[i].num,fracs[i].den);
+    }
+    printf("%d/%d = %d/%d",fracs[i].num,fracs[i].den,finalfrac.num,finalfrac.den);
+}
+
+int main(void)
+{
+    int n,gcd;
+    n = input_n();
+    frac fracs[n];
+    numdeninput(n,fracs);
+    frac fracsum = sum_of_n(n,fracs);
+    gcd = findgcd(fracsum.num,fracsum.den);
+    frac finalfrac = simplified(fracsum,gcd);
+    output(n,fracs,finalfrac);
     return 0;
 }
+
