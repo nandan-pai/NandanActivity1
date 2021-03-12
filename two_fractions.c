@@ -17,19 +17,14 @@ frac input()
     scanf("%d%d",&fr.num,&fr.den);
     return fr;
 }
+
 int findgcd(int num,int den)
 {
-    int gcd;
+    int gcd = 0;
     for(int i = 2 ; i <= num && i <= den; i++)
         if(num % i == 0 && den % i == 0)
             gcd = i;
     return gcd;
-}
-
-frac sum(frac f1, frac f2)
-{
-    frac result = {(f1.num * f2.den) + (f2.num * f1.den), f1.den * f2.den};
-    return result;
 }
 
 frac simplify(frac add,int gcd)
@@ -39,9 +34,17 @@ frac simplify(frac add,int gcd)
     return add;
 }
 
-frac output(frac add)
+void output(frac f1,frac f2,frac add)
 {
-    printf("Result = %d/%d",add.num,add.den);
+    printf("%d/%d + %d/%d = %d/%d",f1.num,f1.den,f2.num,f2.den,add.num,add.den);
+}
+
+frac sum(frac f1, frac f2)
+{
+    frac result = {(f1.num * f2.den) + (f2.num * f1.den), f1.den * f2.den};
+    int gcd = findgcd(result.num,result.den);
+    result = simplify(result,gcd);
+    return result;
 }
 
 int main(void)
@@ -51,8 +54,6 @@ int main(void)
     frac f2 = input();
     struct fraction add;
     add = sum(f1,f2);
-    gcd = findgcd(add.num,add.den);
-    frac simple = simplify(add,gcd);
-    output(simple);
+    output(f1,f2,add);
     return 0;
 }
