@@ -27,23 +27,10 @@ void numdeninput(int n, frac fracs[n])
 	}
 }
 
-frac sum_of_n(int n, frac fracs[n])
-{
-    frac final;
-    final.num = 0;
-    final.den = 1;
-    for(int i=0;i<n;i++)
-    {
-        final.num = final.num * fracs[i].den + final.den * fracs[i].num;
-        final.den *= fracs[i].den;
-    }
-    return final;
-}
-
 int findgcd(int numerator,int denominator)
 {
-    int gcd;
-    for(int i=1;i<=numerator && i<=denominator;i++)
+    int gcd = 1;
+    for(int i=2;i<=numerator && i<=denominator;i++)
     {
         if(numerator%i==0 && denominator%i==0)
         {
@@ -53,12 +40,27 @@ int findgcd(int numerator,int denominator)
     return  gcd;
 }
 
-
 frac simplified(frac fracsum,int gcd)
 {
     fracsum.num = fracsum.num / gcd;
     fracsum.den = fracsum.den / gcd;
     return fracsum;
+}
+
+frac sum_of_n(int n, frac fracs[n])
+{
+    frac final;
+    int gcd;
+    final.num = 0;
+    final.den = 1;
+    for(int i=0;i<n;i++)
+    {
+        final.num = final.num * fracs[i].den + final.den * fracs[i].num;
+        final.den *= fracs[i].den;
+    }
+    gcd = findgcd(final.num,final.den);
+    final = simplified(final,gcd);
+    return final;
 }
 
 void output(int n,frac fracs[n],frac finalfrac)
@@ -79,9 +81,6 @@ int main(void)
     frac fracs[n];
     numdeninput(n,fracs);
     frac fracsum = sum_of_n(n,fracs);
-    gcd = findgcd(fracsum.num,fracsum.den);
-    frac finalfrac = simplified(fracsum,gcd);
-    output(n,fracs,finalfrac);
+    output(n,fracs,fracsum);
     return 0;
 }
-
