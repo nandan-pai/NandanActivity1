@@ -20,7 +20,7 @@ frac input()
 
 int findgcd(int num,int den)
 {
-    int gcd = 0;
+    int gcd = 1;
     for(int i = 2 ; i <= num && i <= den; i++)
         if(num % i == 0 && den % i == 0)
             gcd = i;
@@ -49,7 +49,6 @@ frac sum(frac f1, frac f2)
 
 int main(void)
 {
-    int gcd;
     frac f1 = input();
     frac f2 = input();
     struct fraction add;
